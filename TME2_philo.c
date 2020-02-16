@@ -70,7 +70,9 @@ void eat()
 {
 	printf("P%d> Eating\n", rank);
 	sleep(1);
-	if (++meals_eaten == NB_MEALS) {
+	meals_eaten++;
+	if (meals_eaten == NB_MEALS) {
+		printf("P%d> DONE Eating\n", rank);
 		local_state = DONE;
 		send_message(left, DONE_EATING);
 		send_message(right, DONE_EATING);
@@ -86,7 +88,7 @@ void change_state()
 		local_state = THINKING;
 		left_chopstick = 0;
 		right_chopstick = 0;
-	} else {
+	} else if (local_state == THINKING) {
 		printf("P%d> Waiting\n", rank);
 		local_state = HUNGRY;
 	}
