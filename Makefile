@@ -12,6 +12,9 @@ exercice5: exercice5.c mpi_server.c
 TME2_philo: TME2_philo.c
 	mpicc $^ -o $@
 
+TME4: TME4.c
+	mpicc $^ -o $@
+
 .PHONY: clean
 clean:
 	rm -rf $(EXECUTABLES)
