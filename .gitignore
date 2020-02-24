@@ -1,5 +1,7 @@
 *
 !*.c
 !*.h
+!*.pml
+!*.md
 !Makefile
 !.gitignore
