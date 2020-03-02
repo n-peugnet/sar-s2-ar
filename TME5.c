@@ -54,12 +54,14 @@ void calcul_min(int rank)
     // Si on est une feuille.
     if (nb_voisins == 1) {
         send_message(voisins[0], min_local);
+        printf("P%d> sent %d to %d\n", rank, min_local, voisins[0]);
     }
 
     while (nb_recv < nb_voisins)
     {
         ////////////////////////////////////// R(p) /////////////////////////////////////////////
         MPI_Recv(&min_recv, 1, MPI_INT, MPI_ANY_SOURCE, TAGMSG, MPI_COMM_WORLD, &status);
+        printf("P%d> received %d from %d\n", rank, min_recv, status.MPI_SOURCE);
         if (min_recv < min_local) {
             min_local = min_recv;
         }
@@ -67,18 +69,18 @@ void calcul_min(int rank)
         recv[status.MPI_SOURCE] = 1;
         last = status.MPI_SOURCE;
 
-
         ////////////////////////////////////// D(p) /////////////////////////////////////////////
         if (nb_recv == nb_voisins) {
             for (i = 0; i < nb_voisins; i++) {
                 if (voisins[i] == last)
                     continue;
                 send_message(voisins[i], min_local);
+                printf("P%d> sent %d to %d\n", rank, min_local, voisins[i]);
             }
         }
 
         ////////////////////////////////////// S(p) /////////////////////////////////////////////
-        if (sent = 0 && nb_recv == nb_voisins - 1) {
+        if (sent == 0 && nb_recv == nb_voisins - 1) {
             for (i = 0; i < nb_voisins; i++) {
                 if (recv[voisins[i]] == 1)
                     continue;
@@ -90,6 +92,7 @@ void calcul_min(int rank)
 
 
     free(voisins);
+    printf("P%d> final min: %d\n", rank, min_local);
 }
 
 /******************************************************************************/
