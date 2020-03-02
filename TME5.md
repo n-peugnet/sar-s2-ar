@@ -23,6 +23,6 @@ D(p): {qqsoit q appartenant à Voisins(p) : recv[q]}
         envoyer min_local à r
 
 S(p): {sent = faux && q est le seul voisin dont on a pas recu de msg}
-    envoyer <min_local>
+    envoyer <min_local> à q
     sent = vrai
 ```
