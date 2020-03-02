@@ -1,1 +1,30 @@
-https://www-master.ufr-info-p6.jussieu.fr/2018/Ligne-de-commande-Spin
+# TME 6
+
+## Variables :
+
+- `recv`
+- `last`
+- `sent`
+- `min_local`: minimum local. Initialisé avec un min aléatoire.
+- `lidp`: contient l'id ou le numero du voisin duquel p a reçu le dernier message.
+
+
+## Algo
+
+```
+R(p): {un message <x> arrive depuis q}
+    recevoir <x>
+    Si x < min_local:
+        min-local = x
+    recv = vrai
+    last = q
+
+D(p): {qqsoit q appartenant à Voisins(p) : recv = q}
+    décision
+    pour tout r appartenant à Voisins(p) \ last:
+        envoyer min_local à r
+
+S(p): {sent = faux && q est le seul voisin dont on a pas recu de msg}
+    envoyer <min_local>
+    sent = vrai
+```
