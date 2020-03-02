@@ -1,4 +1,4 @@
-EXECUTABLES := exercice2 TME2 TME3 #TME5 #exercice5
+EXECUTABLES := exercice2 TME2 TME3 TME5 #exercice5
 
 .PHONY: all
 all: $(EXECUTABLES)

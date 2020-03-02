@@ -1,9 +1,13 @@
 #include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define TAGINIT 0
+#define TAGMSG 1
+
 #define NB_SITE 6
+
 
 void simulateur(void)
 {
@@ -24,6 +28,31 @@ void simulateur(void)
         MPI_Send(voisins[i], nb_voisins[i], MPI_INT, i, TAGINIT, MPI_COMM_WORLD);
         MPI_Send(&min_local[i], 1, MPI_INT, i, TAGINIT, MPI_COMM_WORLD);
     }
+}
+
+void send_message(int dest, int min)
+{
+    MPI_Send(&min, 1, MPI_INT, dest, TAGMSG, MPI_COMM_WORLD);
+}
+
+/* main d'un processus */
+void calcul_min(int rank)
+{
+    int sent, min_local, last, nb_voisins;
+    int *voisins;
+    int *recv;
+    srand(time(NULL));
+    min_local = rand() % 100;
+    MPI_Status status;
+    MPI_Recv(&nb_voisins, 1, MPI_INT, MPI_ANY_SOURCE, TAGINIT, MPI_COMM_WORLD, &status);
+    voisins = (int *) malloc(sizeof(int) * nb_voisins);
+    recv = (int *) malloc(sizeof(int) * nb_voisins);
+    MPI_Recv(voisins, nb_voisins, MPI_INT, MPI_ANY_SOURCE, TAGINIT, MPI_COMM_WORLD, &status);
+    MPI_Recv(&min_local, 1, MPI_INT, MPI_ANY_SOURCE, TAGINIT, MPI_COMM_WORLD, &status);
+    printf("P%d> nbvoisins: %d, voisin0: %d, min_local: %d\n", rank, nb_voisins, voisins[0], min_local);
+
+    free(recv);
+    free(voisins);
 }
 
 /******************************************************************************/
