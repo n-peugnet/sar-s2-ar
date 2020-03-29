@@ -23,7 +23,7 @@ void receive_message(MPI_Status *status, int *value)
 
 void send_message(int dest, int tag, int val)
 {
-	printf("P%d> Send message %d to %d\n", rank, tag, dest);
+	// printf("P%d> Send message %d to %d\n", rank, tag, dest);
 	MPI_Send(&val, 1, MPI_INT, dest, tag, MPI_COMM_WORLD);
 }
 
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 		if (status.MPI_TAG == INIT_ELECTION) {
 			// Ask for election
 			if (initiator && value < rank) {
-				// Do nothing
+				printf("P%d> Deleted the token of proc %d\n", rank, value);
 			} else if (initiator && value == rank) {
 				send_message(right, ELECTED, rank);
 			} else {
