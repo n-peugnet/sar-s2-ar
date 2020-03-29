@@ -1,24 +1,12 @@
-EXECUTABLES := exercice2 TME2 TME3 TME5 TME6 #exercice5
+EXECUTABLES := TME1E2 TME2 TME3 TME5 TME6E1 TME6E2 #TME1E5
 
 .PHONY: all
 all: $(EXECUTABLES)
-	
-exercice2: exercice2.c
+
+TME1E5: TME1E5.c mpi_server.c
 	mpicc $^ -o $@
 
-exercice5: exercice5.c mpi_server.c
-	mpicc $^ -o $@
-
-TME2: TME2.c
-	mpicc $^ -o $@
-
-TME3: TME3.c
-	mpicc $^ -o $@
-
-TME5: TME5.c
-	mpicc $^ -o $@
-
-TME6: TME6.c
+TME%: TME%.c
 	mpicc $^ -o $@
 
 .PHONY: clean
