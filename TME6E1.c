@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 			// Ask for election
 			if (initiator && value < rank) {
 				printf("P%d> Deleted the token of proc %d\n", rank, value);
-			} else if (initiator && value == rank) {
+			} else if (value == rank) {
 				send_message(right, ELECTED, rank);
 			} else {
 				send_message(right, INIT_ELECTION, value);

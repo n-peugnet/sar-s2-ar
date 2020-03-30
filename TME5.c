@@ -39,7 +39,7 @@ void send_message(int dest, int min)
 void calcul_min(int rank)
 {
     ////////////////////////////////////// Init /////////////////////////////////////////////
-    int sent, min_local, last, nb_voisins, nb_recv, min_recv, i;
+    int sent, min_local, last, nb_voisins, nb_recv = 0, min_recv, i;
     int recv[NB_SITE + 1];
     int *voisins;
     srand(time(NULL));
@@ -53,6 +53,7 @@ void calcul_min(int rank)
 
     // Si on est une feuille.
     if (nb_voisins == 1) {
+        sent++;
         send_message(voisins[0], min_local);
         printf("P%d> sent %d to %d\n", rank, min_local, voisins[0]);
     }
@@ -74,6 +75,7 @@ void calcul_min(int rank)
             for (i = 0; i < nb_voisins; i++) {
                 if (voisins[i] == last)
                     continue;
+                sent++;
                 send_message(voisins[i], min_local);
                 printf("P%d> sent %d to %d\n", rank, min_local, voisins[i]);
             }
@@ -84,6 +86,7 @@ void calcul_min(int rank)
             for (i = 0; i < nb_voisins; i++) {
                 if (recv[voisins[i]] == 1)
                     continue;
+                sent++;
                 send_message(voisins[i], min_local);
             }
         }
